@@ -49,8 +49,10 @@ async function main() {
 
   var positionBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  setRectangle(gl, randomInt(300), randomInt(300), randomInt(300), randomInt(300));
-
+  let rect_array = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+  let other_rect = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+ 
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rect_array.concat(other_rect)), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(colorLocation);
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -71,7 +73,7 @@ async function main() {
   var offset = 0;        // start at the beginning of the buffer
   gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset)
 
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
+  gl.drawArrays(gl.TRIANGLES, 0, 12);
 }
 
 function createShader(gl, type, source) {
@@ -106,7 +108,7 @@ function randomInt(range) {
 }
  
 // Fills the buffer with the values that define a rectangle.
-function setRectangle(gl, x, y, width, height) {
+function setRectangle(x, y, width, height) {
   var x1 = x;
   var x2 = x + width;
   var y1 = y;
@@ -117,13 +119,13 @@ function setRectangle(gl, x, y, width, height) {
   // but so far we only have one buffer. If we had more than one
   // buffer we'd want to bind that buffer to `ARRAY_BUFFER` first.
  
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+  return [
      x1, y1,
      x2, y1,
      x1, y2,
      x1, y2,
      x2, y1,
-     x2, y2]), gl.STATIC_DRAW);
+     x2, y2];
 }
 
 // Fill the buffer with colors for the 2 triangles
@@ -142,6 +144,12 @@ function setColors(gl) {
       gl.ARRAY_BUFFER,
       new Float32Array(
         [ r1, b1, g1, 1,
+          r1, b1, g1, 1,
+          r2, b2, g2, 1,
+          r1, b1, g1, 1,
+          r2, b2, g2, 1,
+          r2, b2, g2, 1,
+          r1, b1, g1, 1,
           r1, b1, g1, 1,
           r2, b2, g2, 1,
           r1, b1, g1, 1,
