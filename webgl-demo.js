@@ -55,7 +55,7 @@ async function main() {
 
   gl.bufferData(
       gl.ARRAY_BUFFER,
-      new Float32Array(someRect + anotherRect),
+      new Float32Array(someRect.concat(anotherRect)),
       gl.STATIC_DRAW);
 
 
