@@ -139,6 +139,14 @@ function setColors(gl) {
   var r2 = Math.random();
   var b2 = Math.random();
   var g2 = Math.random();
+
+  var r3 = Math.random();
+  var b3 = Math.random();
+  var g3 = Math.random();
+ 
+  var r4 = Math.random();
+  var b4 = Math.random();
+  var g4 = Math.random();
  
   gl.bufferData(
       gl.ARRAY_BUFFER,
