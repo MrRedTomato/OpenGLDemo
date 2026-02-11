@@ -49,15 +49,10 @@ async function main() {
 
   var positionBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  let someRect = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
-
-  let anotherRect = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
-
-  gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array(someRect.concat(anotherRect)),
-      gl.STATIC_DRAW);
-
+  let rect_array = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+  let other_rect = setRectangle(randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+ 
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rect_array.concat(other_rect)), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(colorLocation);
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -78,7 +73,7 @@ async function main() {
   var offset = 0;        // start at the beginning of the buffer
   gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset)
 
-  gl.drawArrays(gl.Triangle, 0, 12);
+  gl.drawArrays(gl.TRIANGLES, 0, 12);
 }
 
 function createShader(gl, type, source) {
@@ -123,7 +118,9 @@ function setRectangle(x, y, width, height) {
   // whatever buffer is bound to the `ARRAY_BUFFER` bind point
   // but so far we only have one buffer. If we had more than one
   // buffer we'd want to bind that buffer to `ARRAY_BUFFER` first.
-     return [x1, y1,
+ 
+  return [
+     x1, y1,
      x2, y1,
      x1, y2,
      x1, y2,
@@ -160,11 +157,11 @@ function setColors(gl) {
           r1, b1, g1, 1,
           r2, b2, g2, 1,
           r2, b2, g2, 1,
-          r2, b3, g3, 1,
-          r3, b3, g3, 1,
-          r3, b3, g3, 1,
-          r3, b3, g1, 1,
-          r3, b3, g3, 1,
-          r3, b3, g3, 1]),
+          r1, b1, g1, 1,
+          r1, b1, g1, 1,
+          r2, b2, g2, 1,
+          r1, b1, g1, 1,
+          r2, b2, g2, 1,
+          r2, b2, g2, 1]),
       gl.STATIC_DRAW);
 }
